@@ -1,0 +1,261 @@
+﻿<script type="text/javascript" src="http://www.amcharts.com/lib/3/amcharts.js"></script>
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/exporting/amexport_combined.js"></script>
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/pie.js"></script>
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/serial.js"></script>
+<script type="text/javascript" src="http://www.amcharts.com/lib/3/themes/none.js"></script>
+<script src="~/Scripts/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script>
+<script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/StackBlur.js"></script>
+<script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script> 
+
+<div id="chartdiv" style="width: 4687px; height:1468px;"></div>
+
+<canvas id="canvas"></canvas>
+
+
+<script>
+    //	When pulling the data, only set the High and Low description fields, if not high or low, pass an empty string
+    var dataprovider = [{
+        Region: "Canada",
+        LCredit: .647161761975778,
+        LCreditDesc: "",
+        SCredit: -0.00009,
+        SCreditDesc: "",
+        LEquity: .97749485975874,
+        LEquityDesc: "1.0%",
+        SEquity: 0.00009,
+        SEquityDesc: "0.0%"
+    }, {
+        Region: "South America",
+        LCredit: .195205102303487,
+        LCreditDesc: "",
+        SCredit: -1.04941076577872,
+        SCreditDesc: "",
+        LEquity: .540287964964962,
+        LEquityDesc: "0.5%",
+        SEquity: -1.04941076577872,
+        SEquityDesc: "-1.0%"
+    }, {
+        Region: "United States",
+        LCredit: 14.3255095533946,
+        LCreditDesc: "",
+        SCredit: -1.19331733223615,
+        SCreditDesc: "",
+        LEquity: 48.5084223740909,
+        LEquityDesc: "48.5%",
+        SEquity: -10.3261230545985,
+        SEquityDesc: "-10.3%"
+    }, {
+        Region: "Eastern Europe",
+        LCredit: .193756236451029,
+        LCreditDesc: "",
+        SCredit: -0.00009,
+        SCreditDesc: "",
+        LEquity: .280909509130132,
+        LEquityDesc: "0.3%",
+        SEquity: -0.00009,
+        SEquityDesc: "0.0%"
+    }, {
+        Region: "Middle East",
+        LCredit: 2.4240228054715,
+        LCreditDesc: "",
+        SCredit: -.379976898468472,
+        SCreditDesc: "",
+        LEquity: 2.54160881867216,
+        LEquityDesc: "2.5%",
+        SEquity: -.379976898468472,
+        SEquityDesc: "-0.4%"
+    }, {
+        Region: "United Kingdom",
+        LCredit: 3.85533031610078,
+        LCreditDesc: "",
+        SCredit: -1.07437560998303,
+        SCreditDesc: "",
+        LEquity: 11.567377956906,
+        LEquityDesc: "11.6%",
+        SEquity: -1.42384092510202,
+        SEquityDesc: "-1.4%"
+    }, {
+        Region: "Western Europe",
+        LCredit: 22.3590257937613,
+        LCreditDesc: "",
+        SCredit: -14.1937653281593,
+        SCreditDesc: "",
+        LEquity: 45.5792251606862,
+        LEquityDesc: "45.6%",
+        SEquity: -25.3790704718485,
+        SEquityDesc: "-25.4%"
+    }, {
+        Region: "Asia",
+        LCredit: 1.96008090051932,
+        LCreditDesc: "",
+        SCredit: -5.6291089091766,
+        SCreditDesc: "",
+        LEquity: 13.1508468213292,
+        LEquityDesc: "13.2%",
+        SEquity: -9.51327231326619,
+        SEquityDesc: "-9.5%"
+    }, {
+        Region: "Australia",
+        LCredit: .688254902074538,
+        LCreditDesc: "",
+        SCredit: -.544673954832138,
+        SCreditDesc: "",
+        LEquity: 2.34872279404407,
+        LEquityDesc: "2.3%",
+        SEquity: -1.33949790375269,
+        SEquityDesc: "-1.3%"
+    }];
+
+    var chart = AmCharts.makeChart("chartdiv", {
+        "theme": "none",
+        "type": "serial",
+        "dataProvider": dataprovider,
+        "valueAxes": [{
+            "unit": "%",
+            "position": "left",
+            "title": "",
+            gridThickness: 0,
+            //gridCount: 12,
+            //autoGridCount: false,
+            labelFrequency: 2,
+            minVerticalGap: 100,
+            minMaxMultiplier: 1.1
+            //inside: true
+
+            //labelFunction: formatLabel
+        }],
+
+        //"legend": {
+        //	"horizontalGap": 0,
+        //	"verticalGap": 1,
+        //	"maxColumns": 4,
+        //	"position": "top",
+        //	"useGraphSettings": true,
+        //	"markerSize": 50,
+        //	"align": "center",
+        //	//fontSize: 16,
+        //	marginBottom: 0,
+        //	marginTop: 0,
+        //	marginLeft: 0,
+        //	marginRight: 0
+        //},
+        fontSize: 80,
+        stackable: "regular",
+        bold: true,
+        //"startDuration": 1,
+        fontFamily: "Arial",
+        "graphs": [{
+            "balloonText": "[[category]] (LEquity): <b>[[value]]</b>",
+            "fillAlphas": 0.9,
+            "lineAlpha": 0.2,
+            "title": "Long Equity",
+            "type": "column",
+            "clustered": false,
+            "columnWidth": 0.7,
+            "valueField": "LEquity",
+            "fillColors": "#99CCFF",
+            "lineColor": "#99CCFF",
+            "labelText": "[[description]]",
+            descriptionField: "LEquityDesc",
+            precision: 1,
+            labelPosition: "top"
+        }, {
+            "balloonText": "[[category]] (LCredit): <b>[[value]]</b>",
+            "fillAlphas": 0.9,
+            "lineAlpha": 0.2,
+            "title": "Long Credit",
+            "type": "column",
+            "columnWidth": 0.7,
+            "valueField": "LCredit",
+            "fillColors": "#336699",
+            "lineColor": "#336699",
+            "labelText": "[[description]]",
+            descriptionField: "LCreditDesc",
+
+        }, {
+            "balloonText": " [[category]] (SEquity): <b>[[value]]</b>",
+            "fillAlphas": 0.9,
+            "lineAlpha": 0.2,
+            "title": "Short Equity",
+            "type": "column",
+            "clustered": false,
+            "columnWidth": 0.7,
+            "valueField": "SEquity",
+            "fillColors": "#FFCCCC",
+            "lineColor": "#FFCCCC",
+            "labelText": "[[description]]",
+            descriptionField: "SEquityDesc",
+            precision: 1,
+            labelPosition: "bottom"
+        }, {
+            "balloonText": " [[category]] (SCredit): <b>[[value]]</b>",
+            "fillAlphas": 0.9,
+            "lineAlpha": 0.2,
+            "title": "Short Credit",
+            "type": "column",
+            "clustered": false,
+            "columnWidth": 0.7,
+            "valueField": "SCredit",
+            "fillColors": "#800000",
+            "lineColor": "#800000",
+            "labelText": "[[description]]",
+            descriptionField: "SCreditDesc",
+        }],
+        "plotAreaFillAlphas": 0.1,
+        "categoryField": "Region",
+        "categoryAxis": {
+            "gridPosition": "start",
+            labelRotation: 45,
+            gridThickness: 0
+        },
+
+        exportConfig: {
+            menuTop: "21px",
+            menuBottom: "auto",
+            menuRight: "21px",
+            backgroundColor: "#efefef",
+
+            menuItemStyle: {
+                backgroundColor: "#EFEFEF",
+                rollOverBackgroundColor: "#DDDDDD"
+            },
+
+            menuItems: [{
+                textAlign: "center",
+                icon: "http://www.amcharts.com/lib/3/images/export.png",
+                onclick: function () { },
+                items: [{
+                    title: "PNG",
+                    format: "png"
+                }]
+            }]
+        }
+    });
+
+</script>
+
+<script>
+    window.setTimeout(function() {
+        var svg = $('svg').parent().html();
+        canvg('canvas', svg);
+        var canvas = document.getElementById("#canvas");
+        var img_PNG = "<img src='#{canvas.toDataURL()}' />";
+        $('.chart').html(img_PNG);
+
+        window.setTimeout(function () {
+            var image = document.getElementById("canvas").toDataURL("image/png");
+            image = image.replace('data:image/png;base64,', '');
+            $.ajax({
+                type: 'POST',
+                url: 'Home/SaveImage',
+                data: '{ "imageData" : "' + image + '" }',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (msg) {
+                }
+            });
+
+        }, 100);
+    });
+</script>
